@@ -1,80 +1,72 @@
-import {
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
+import {ImageBackground, Pressable, StyleSheet, Text, View,
 } from "react-native";
 
 export default function App() {
   return (
     <ImageBackground
       source={require("./home.png")}
-      style={[styles.background, styles.container]}
+      style={styles.background}
       resizeMode="cover"
-      pointerEvents="none"
     >
-      <Text style={styles.title}>
-        Explore a{"\n"}new world{"\n"}with us
-      </Text>
-      <View style={styles.buttonContainer}>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>REGISTER</Text>
-        </Pressable>
+      <View style={styles.content}>
+        <Text style={styles.title}>
+          Explore a{"\n"}new world{"\n"}with us
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonText}>REGISTER</Text>
+          </Pressable>
 
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>LOGIN</Text>
-        </Pressable>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonText}>LOGIN</Text>
+          </Pressable>
+        </View>
       </View>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center", // vertical center
-    alignItems: "flex-start", // left align children
-    paddingHorizontal: 20, // some side padding
-  },
-
   background: {
     width: "100%",
     height: "100%",
     flex: 1,
   },
-
+  content: {
+    flex: 1,
+    justifyContent: "flex-end",
+    paddingHorizontal: 14,
+    paddingBottom: 30,
+  },
   title: {
-    fontSize: 48, // much larger
+    fontSize: 52,
+    lineHeight: 56,
     fontWeight: "700",
-    color: "#fdfdfd",
+    color: "#fff",
     textAlign: "left",
-    marginBottom: 24,
-    // removed fixed top; container handles vertical centering
+    marginBottom: 130,
+        letterSpacing: 5,
+
   },
   buttonContainer: {
-    width: "100%",
-    position: "absolute",
-    bottom: 40, // space from bottom
-    flexDirection: "column", // stack vertically
-    alignItems: "center",
-    paddingHorizontal: 20,
+    marginBottom: 28,
   },
 
   button: {
     width: "100%",
-    height: 35,
-    maxWidth: 300,
+    height: 45,
     backgroundColor: "#000",
-    borderRadius: 13,
-    marginBottom: 22,
+    borderRadius: 12,
+    marginBottom: 12,
     justifyContent: "center",
     alignItems: "center",
+
   },
   buttonText: {
     color: "#fff",
-    fontSize: 14,
-    fontWeight: "100%",
+    fontSize: 15,
+    fontWeight: "700",
     letterSpacing: 1,
+    
   },
 });

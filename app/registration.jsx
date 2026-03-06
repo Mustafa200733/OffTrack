@@ -10,9 +10,9 @@ export default function registration() {
     >
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>LOGIN</Text>
+          <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
         </Pressable>
-        <Text style={styles.subheading}>Dont have an account? Sign up</Text>
+        <Text style={styles.subheading}>Already have an account? Sign in</Text>
       </View>
     </ImageBackground>
   );
@@ -40,23 +40,26 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    height: 35,
-    maxWidth: 300,
+    height: 54,
     backgroundColor: "#000",
-    borderRadius: 13,
-    marginBottom: 12,
+    borderRadius: 30,
+    marginBottom: 30,
     justifyContent: "center",
     alignItems: "center",
+     marginLeft: -39,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 14,
-    fontWeight: "400",
-    letterSpacing: 1,
+    fontSize: 18,
+    fontWeight: "690",
+    letterSpacing: 3,
   },
   subheading: {
     fontSize: 16,
     fontWeight: "700",
     color: "#111",
+        letterSpacing: 1,
+     marginLeft: -39,
+
   },
 });
