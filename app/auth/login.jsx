@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, ImageBackground } from "react-native
 export default function Login() {
   return (
     <ImageBackground
-      source={require("./log.png")}
+  source={require("./log.png")} 
       style={[styles.background, styles.container]}
       resizeMode="cover"
       pointerEvents="none"

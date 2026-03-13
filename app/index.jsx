@@ -1,3 +1,5 @@
+import registration from './auth/registration';
+import { Link } from 'expo-router';
 import {ImageBackground, Pressable, StyleSheet, Text, View,
 } from "react-native";
 
@@ -13,13 +15,18 @@ export default function App() {
           Explore a{"\n"}new world{"\n"}with us
         </Text>
         <View style={styles.buttonContainer}>
+          
+          <Link href={"./auth/registration"}>
           <Pressable style={styles.button}>
             <Text style={styles.buttonText}>REGISTER</Text>
-          </Pressable>
+         </Pressable>
+</Link > 
+          <Link href={"./auth/login"}>
 
           <Pressable style={styles.button}>
             <Text style={styles.buttonText}>LOGIN</Text>
           </Pressable>
+          </Link > 
         </View>
       </View>
     </ImageBackground>

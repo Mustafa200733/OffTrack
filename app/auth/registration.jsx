@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, ImageBackground } from "react-native
 export default function registration() {
   return (
     <ImageBackground
-      source={require("./cret.png")}
+      source={require("../cret.png")}
       style={[styles.background, styles.container]}
       resizeMode="cover"
       pointerEvents="none"
