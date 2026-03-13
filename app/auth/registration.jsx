@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet, ImageBackground } from "react-native";
+import { Link } from "expo-router";
 
 export default function registration() {
   return (
@@ -9,10 +10,16 @@ export default function registration() {
       pointerEvents="none"
     >
       <View style={styles.buttonContainer}>
+          <Link href={"../home"}>
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
         </Pressable>
+           </Link >  
+         <Link href={"../home"}>
+
         <Text style={styles.subheading}>Already have an account? Sign in</Text>
+                   </Link >  
+
       </View>
     </ImageBackground>
   );
