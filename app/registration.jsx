@@ -1,25 +1,25 @@
 import { View, Text, Pressable, StyleSheet, ImageBackground } from "react-native";
 import { Link } from "expo-router";
 
-export default function Login() {
+export default function registration() {
   return (
     <ImageBackground
-  source={require("./log.png")} 
+      source={require("./images/cret.png")}
       style={[styles.background, styles.container]}
       resizeMode="cover"
-      pointerEvents="none"
     >
       <View style={styles.buttonContainer}>
-                 <Link href={"../home"}>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>LOGIN</Text>
-        </Pressable>
-                   </Link >  
-                         <Link href={"../home"}>
+        <Link href="/home" asChild>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
+          </Pressable>
+        </Link>
 
-        <Text style={styles.subheading}>Dont have an account? Sign up</Text>
-                        </Link >  
-
+        <Link href="/login" asChild>
+          <Pressable hitSlop={10}>
+            <Text style={styles.subheading}>Already have an account? Sign in</Text>
+          </Pressable>
+        </Link>
       </View>
     </ImageBackground>
   );
@@ -28,9 +28,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "flex-start",
-    paddingHorizontal: 20,
+    justifyContent: "flex-end",
   },
   background: {
     width: "100%",
@@ -39,33 +37,30 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: "100%",
-    position: "absolute",
-    bottom: 40,
-    flexDirection: "column",
     alignItems: "center",
     paddingHorizontal: 20,
+    paddingBottom: 40,
+    gap: 12,
   },
   button: {
     width: "100%",
     height: 54,
     backgroundColor: "#000",
     borderRadius: 30,
-    marginBottom: 22,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: -70,
   },
   buttonText: {
-    color: "#ffffff",
+    color: "#fff",
     fontSize: 18,
     fontWeight: "690",
-    letterSpacing: 2,
+    letterSpacing: 3,
   },
   subheading: {
     fontSize: 16,
-    fontWeight: "610",
-    color: "#ffffff",
-        letterSpacing: 2,
-
+    fontWeight: "700",
+    color: "#fff",
+    letterSpacing: 1,
+    textAlign: "center",
   },
 });

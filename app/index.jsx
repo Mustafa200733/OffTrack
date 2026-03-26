@@ -1,12 +1,10 @@
-import registration from './auth/registration';
 import { Link } from 'expo-router';
-import {ImageBackground, Pressable, StyleSheet, Text, View,
-} from "react-native";
+import {ImageBackground, Pressable, StyleSheet, Text, View,} from "react-native";
 
 export default function App() {
   return (
     <ImageBackground
-      source={require("./home.png")}
+      source={require("./images/home.png")}
       style={styles.background}
       resizeMode="cover"
     >
@@ -16,12 +14,12 @@ export default function App() {
         </Text>
         <View style={styles.buttonContainer}>
           
-          <Link href={"./auth/registration"}>
+          <Link href={"./registration"}>
           <Pressable style={styles.button}>
             <Text style={styles.buttonText}>REGISTER</Text>
          </Pressable>
 </Link > 
-          <Link href={"./auth/login"}>
+          <Link href={"./login"}>
 
           <Pressable style={styles.button}>
             <Text style={styles.buttonText}>LOGIN</Text>
