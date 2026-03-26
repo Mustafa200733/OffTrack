@@ -44,7 +44,7 @@ export default function Nav() {
         <Pressable style={styles.iconWrapper}>
           <Image 
             source={require('./images/pfp.png')} 
-            style={styles.image}
+            style={[styles.image, styles.avatar]}
           />
         </Pressable>
       </Link>
@@ -58,24 +58,28 @@ const styles = StyleSheet.create({
     bottom: 0,             
     left: 0,
     right: 0,
-    height: 60,
+    height: 66,
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-around', 
     alignItems: 'center',
     borderTopWidth: 0.5,
     borderTopColor: '#ccc',          
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
   },
   iconWrapper: {
-    width: 40,
-    height: 40,
+    width: 52,
+    height: 52,
     justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
-    width: 30,
-    height: 30,
+    width: 24,
+    height: 24,
     resizeMode: 'contain',
+  },
+  avatar: {
+    borderRadius: 12,
+    resizeMode: 'cover',
   }
 })

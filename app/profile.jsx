@@ -1,19 +1,24 @@
-import { StyleSheet, View } from 'react-native'
-import Nav from './Nav';
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Nav from "./Nav";
 
-export default function profile() {
+export default function Profile() {
   return (
-        <View style={styles.container}>
-    
-      <Nav />  
-    </View>
-  )
+    <SafeAreaView style={styles.screen}>
+      <Nav />
+    </SafeAreaView>
+  );
 }
-const styles = StyleSheet.create({
 
-  container: {
-    flex: 1,              
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+
+    heading:{
+    backgroundColor: "#111",
+    }
   },
-})
+});
 
 
