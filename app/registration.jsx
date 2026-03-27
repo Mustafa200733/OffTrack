@@ -1,34 +1,61 @@
-import { useMemo, useState } from "react";
-import {Alert, ImageBackground, Pressable, StyleSheet, Text, TextInput, View,
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 
 export default function Registration() {
   const router = useRouter();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const errorTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+    };
+  }, []);
 
   const isValid = useMemo(() => {
-    if (name.trim().length === 0) return false;
     if (email.trim().length === 0) return false;
     if (password.length === 0) return false;
     if (confirmPassword.length === 0) return false;
     if (password !== confirmPassword) return false;
     return true;
-  }, [name, email, password, confirmPassword]);
+  }, [email, password, confirmPassword]);
 
   const handleRegister = () => {
-    if (!name.trim() || !email.trim() || !password || !confirmPassword) {
-      Alert.alert("Fout", "Vul alle velden in.");
+    const showMessage = (message) => {
+      setError(message);
+      if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+      errorTimerRef.current = setTimeout(() => setError(""), 3000);
+    };
+
+    if (!email.trim()) {
+      showMessage("Email is verplicht.");
+      return;
+    }
+    if (!password) {
+      showMessage("Wachtwoord is verplicht.");
+      return;
+    }
+    if (!confirmPassword) {
+      showMessage("Bevestig wachtwoord is verplicht.");
       return;
     }
     if (password !== confirmPassword) {
-      Alert.alert("Fout", "Wachtwoorden komen niet overeen.");
+      showMessage("Wachtwoorden komen niet overeen.");
       return;
     }
 
+    setError("");
     router.replace("/home");
   };
 
@@ -43,8 +70,8 @@ export default function Registration() {
       
         <TextInput
           style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="rgba(255,255,255,0.75)"
+          placeholder="Email Adress"
+          placeholderTextColor="rgb(0, 0, 0)"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -55,8 +82,8 @@ export default function Registration() {
 
         <TextInput
           style={styles.input}
-          placeholder="Wachtwoord"
-          placeholderTextColor="rgba(255,255,255,0.75)"
+          placeholder="Password"
+          placeholderTextColor="rgb(0, 0, 0)"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -65,21 +92,21 @@ export default function Registration() {
 
         <TextInput
           style={styles.input}
-          placeholder="Bevestig wachtwoord"
-          placeholderTextColor="rgba(255,255,255,0.75)"
+          placeholder="Confirm Password"
+          placeholderTextColor="rgb(0, 0, 0)"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
-          textContentType="newPassword"
-        />
-
+          textContentType="newPassword"/>
+        
         <Pressable
           style={[styles.button, !isValid && styles.buttonDisabled]}
           onPress={handleRegister}
-          disabled={!isValid}
         >
           <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
         </Pressable>
+
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <Link href="/login" asChild>
           <Pressable hitSlop={10}>
@@ -108,19 +135,23 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   heading: {
-    fontSize: 32,
+    fontSize: 42,
     fontWeight: "700",
-    color: "#140000",
+    color: "#f8f8f8",
     marginBottom: 8,
   },
   input: {
     height: 54,
-    borderRadius: 18,
+    borderRadius: 28,
     paddingHorizontal: 16,
-    color: "#020000",
-    backgroundColor: "rgb(48, 32, 32)",
+    color: "#000000",
+    backgroundColor: "rgb(255, 255, 255)",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.25)",
+    borderColor: "rgb(255, 255, 255)",
+    fontSize: 17,
+    fontWeight: "700",
+    letterSpacing: 2,
+
   },
   button: {
     width: "100%",
@@ -130,20 +161,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 6,
+
   },
   buttonDisabled: {
     opacity: 0.6,
   },
+ 
   buttonText: {
-    color: "#fff",
+    color: "#ffffff",
     fontSize: 18,
     fontWeight: "690",
     letterSpacing: 3,
   },
+  errorText: {
+    color: "#b00020",
+    fontSize: 13,
+    fontWeight: "700",
+    letterSpacing: 0.2,
+  },
   subheading: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#fff",
+    color: "#000000",
     letterSpacing: 1,
     textAlign: "center",
     marginTop: 6,

@@ -1,5 +1,11 @@
-import { useMemo, useState } from "react";
-import {Alert, ImageBackground, Pressable, StyleSheet, Text, TextInput, View,
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 
@@ -7,17 +13,32 @@ export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const errorTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+    };
+  }, []);
 
   const isValid = useMemo(() => {
     return email.trim().length > 0 && password.length > 0;
   }, [email, password]);
 
   const handleLogin = () => {
+    const showMessage = (message) => {
+      setError(message);
+      if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+      errorTimerRef.current = setTimeout(() => setError(""), 3000);
+    };
+
     if (!isValid) {
-      Alert.alert("Fout", "Vul je email en wachtwoord in.");
+      showMessage("Vul je email en wachtwoord in.");
       return;
     }
 
+    setError("");
     router.replace("/home");
   };
 
@@ -31,8 +52,8 @@ export default function Login() {
 
         <TextInput
           style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="rgba(255,255,255,0.75)"
+          placeholder="Email Adress"
+          placeholderTextColor="rgb(0, 0, 0)"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -43,8 +64,8 @@ export default function Login() {
 
         <TextInput
           style={styles.input}
-          placeholder="Wachtwoord"
-          placeholderTextColor="rgba(255,255,255,0.75)"
+          placeholder="Password"
+          placeholderTextColor="rgb(0, 0, 0)"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -54,10 +75,11 @@ export default function Login() {
         <Pressable
           style={[styles.button, !isValid && styles.buttonDisabled]}
           onPress={handleLogin}
-          disabled={!isValid}
         >
           <Text style={styles.buttonText}>LOGIN</Text>
         </Pressable>
+
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <Link href="/registration" asChild>
           <Pressable hitSlop={10}>
@@ -93,12 +115,14 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 54,
-    borderRadius: 18,
+    fontSize: 17,
+    fontWeight: "670",
+    borderRadius: 30,
     paddingHorizontal: 16,
-    color: "#ffffff",
-    backgroundColor: "rgba(0,0,0,0.35)",
+    color: "#000000",
+    backgroundColor: "rgb(255, 254, 254)",
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.25)",
+    borderColor: "rgb(255, 255, 255)",
   },
   button: {
     width: "100%",
@@ -112,11 +136,18 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     opacity: 0.6,
   },
+
   buttonText: {
     color: "#ffffff",
     fontSize: 18,
     fontWeight: "700",
     letterSpacing: 2,
+  },
+  errorText: {
+    color: "#b00020",
+    fontSize: 13,
+    fontWeight: "700",
+    letterSpacing: 0.2,
   },
   subheading: {
     fontSize: 16,
