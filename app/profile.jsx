@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {View, Text } from "react-native";
 import Nav from "./Nav";
 
 export default function Profile() {
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
       <Nav />
-    </SafeAreaView>
+      <Text style={styles.Text}>My Profile</Text>
+    </View>
   );
 }
 
@@ -19,6 +20,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#111",
     }
   },
+  
+  Text: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginLeft: 20,
+  },  
+
 });
 
 

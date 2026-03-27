@@ -26,16 +26,16 @@ export default function Nav() {
         <Pressable style={styles.iconWrapper}>
           <Image 
             source={require('./images/plus.png')} 
-            style={styles.image}
+            style={styles.plus}
           />
         </Pressable>
       </Link>
 
-      <Link href="/bel" asChild>
+      <Link href="/Bel" asChild>
         <Pressable style={styles.iconWrapper}>
           <Image 
             source={require('./images/bel.png')} 
-            style={styles.image}
+            style={styles.bel}
           />
         </Pressable>
       </Link>
@@ -81,5 +81,16 @@ const styles = StyleSheet.create({
   avatar: {
     borderRadius: 12,
     resizeMode: 'cover',
-  }
+  },
+
+  plus: {
+    width: 71,
+    height: 52,
+    top: 5,
+  },
+
+  bel: {
+    width: 51,
+    height: 32,
+  },
 })

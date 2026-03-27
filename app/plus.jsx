@@ -1,18 +1,28 @@
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {View, Text } from "react-native";
 import Nav from "./Nav";
 
 export default function Plus() {
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.plus}>
       <Nav />
-    </SafeAreaView>
+      <Text style={styles.Text}>New diary entry</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+  },
+  plus: {
+    flex: 1,
     backgroundColor: "#ffffff",
   },
+ Text: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginLeft: 20,
+  },  
 });

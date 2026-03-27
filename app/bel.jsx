@@ -1,19 +1,28 @@
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet} from "react-native";
+import {View, Text} from "react-native"
 import Nav from "./Nav";
 
 export default function Bel() {
   return (
-    <SafeAreaView style={styles.screen}>
-      <ScreenHeader title="🔔 Notifications" />
-      <Nav />
-    </SafeAreaView>
+<View  style={styles.screen}>
+<Text style={styles.Text}>🔔 Notifications</Text>
+    <Nav />
+</View>
+    
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#111",
   },
+  
+  Text: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginLeft: 20,
+  },  
 });
+
+

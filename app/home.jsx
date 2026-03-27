@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text } from "react-native";
 import Nav from "./Nav";
 
 export default function Home() {
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
+      <Text style={styles.Text}>🏖️ My trips</Text>
       <Nav />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -14,5 +15,12 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+
+  Text: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    marginLeft: 20,
   },
 });

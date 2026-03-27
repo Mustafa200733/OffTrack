@@ -1,18 +1,27 @@
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {View, Text } from "react-native";
 import Nav from "./Nav";
 
 export default function Search() {
   return (
-    <SafeAreaView style={styles.screen}>
-      <Nav />
-    </SafeAreaView>
+    <View style={styles.search} >
+      <Text style={styles.Text}>  Barcelona</Text>
+            <Nav />
+
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  search: {
     flex: 1,
-    backgroundColor: "#ffffff",
+        backgroundColor: "#ffffff",
+
   },
+    Text: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 910,
+    marginLeft: 20,
+  },  
 });
