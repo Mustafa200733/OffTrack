@@ -54,10 +54,6 @@ export default function Nav() {
 
 const styles = StyleSheet.create({
   navbar: {
-    position: 'absolute',  
-    bottom: 0,             
-    left: 0,
-    right: 0,
     height: 66,
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -66,6 +62,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderTopColor: '#ccc',          
     paddingHorizontal: 12,
+    paddingBottom: 6,
   },
   iconWrapper: {
     width: 52,

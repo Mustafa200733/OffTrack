@@ -5,7 +5,7 @@ import Nav from "./Nav";
 export default function Search() {
   return (
     <View style={styles.search} >
-      <Text style={styles.Text}>  Barcelona</Text>
+      <Text style={styles.Text}> Barcelona</Text>
             <Nav />
 
     </View>
