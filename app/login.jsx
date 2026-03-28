@@ -1,12 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import {ImageBackground,Pressable, StyleSheet, Text, TextInput, View} from "react-native";
 import { Link, useRouter } from "expo-router";
 
 export default function Login() {
@@ -113,16 +106,18 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginBottom: 8,
   },
-  input: {
+    input: {
     height: 54,
-    fontSize: 17,
-    fontWeight: "670",
-    borderRadius: 30,
+    borderRadius: 28,
     paddingHorizontal: 16,
     color: "#000000",
-    backgroundColor: "rgb(255, 254, 254)",
+    backgroundColor: "rgb(255, 255, 255)",
     borderWidth: 1,
     borderColor: "rgb(255, 255, 255)",
+    fontSize: 17,
+    fontWeight: "700",
+    letterSpacing: 2,
+
   },
   button: {
     width: "100%",
@@ -133,12 +128,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 6,
   },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
+
 
   buttonText: {
-    color: "#ffffff",
+    color: "white",
     fontSize: 18,
     fontWeight: "700",
     letterSpacing: 2,

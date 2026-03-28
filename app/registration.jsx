@@ -1,12 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import {ImageBackground,Pressable,StyleSheet, Text, TextInput, View,} from "react-native";
 import { Link, useRouter } from "expo-router";
 
 export default function Registration() {
@@ -163,9 +156,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
 
   },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
+
  
   buttonText: {
     color: "#ffffff",
