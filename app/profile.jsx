@@ -5,8 +5,9 @@ import Nav from "./Nav";
 export default function Profile() {
   return (
     <View style={styles.screen}>
-      <Nav />
       <Text style={styles.Text}>My Profile</Text>
+         <Nav />
+
     </View>
   );
 }

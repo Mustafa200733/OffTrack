@@ -1,5 +1,6 @@
 import { StyleSheet, View, Image, Text } from 'react-native'
 import { Link } from 'expo-router';
+import Nav from "./Nav";
 export default function Barcelonadetail() {
  
   return (
@@ -30,6 +31,7 @@ I finally made it! After months of planning, I landed in Barcelona this morning.
        <Text style={styles.Text3}> 
       
 Today was all about Antoni Gaudí. I started my morning at the breathtaking Sagrada Família. The towering spires and intricate details left me speechless. I could’ve spent hours admiring the stained glass windows as sunlight danced through them. Next, I visited Park Güell, a whimsical wonderland filled with colorful mosaics and surreal architecture. Walking through the park felt like stepping into a fairytale. I ended my day strolling down Passeig de Gràcia, where I saw Casa Batlló and La Pedrera. Gaudí’s genius is everywhere!</Text>
+            <Nav />
     </View>
   )
 }

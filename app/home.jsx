@@ -58,9 +58,10 @@ export default function Home() {
             </Link>
 
 
-            
+
       </ScrollView>
-      <Nav />
+                        <Nav />
+
     </View>
   );
 }
@@ -83,13 +84,7 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     gap: 14,
   },
-  iconWrapper: {
-    borderRadius: 14,
-    overflow: "hidden",
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ededed",
-  },
+  
   image: {
     width: "100%",
     height: 190,

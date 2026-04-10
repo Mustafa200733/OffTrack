@@ -26,7 +26,11 @@ export default function App() {
           </Pressable>
           </Link > 
         </View>
-      </View>
+      
+
+    </View>
+           
+
     </ImageBackground>
   );
 }
