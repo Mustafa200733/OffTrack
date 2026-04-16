@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
 
-  /* CARD */
+  
   card: {
     marginTop: 15,
     marginHorizontal: 20,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 
-  /* FAVORITES */
+  
   favHeader: {
     flexDirection: "row",
     alignItems: "center",
