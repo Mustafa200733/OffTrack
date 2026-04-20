@@ -1,11 +1,29 @@
+import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Nav from "./Nav";
 
 export default function Profile() {
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const storedUserRaw = await AsyncStorage.getItem("user");
+        const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
+        setUsername(storedUser?.username ?? "");
+      } catch (_error) {
+        setUsername("");
+      }
+    };
+
+    loadUser();
+  }, []);
+
   return (
     <View style={styles.screen}>
 
-      {/* HEADER */}
+      
       <View style={styles.header}>
         <Image
           source={require("./images/backgroundm.png")}
@@ -18,9 +36,9 @@ export default function Profile() {
         />
       </View>
 
-      {/* NAME + EDIT */}
+     
       <View style={styles.nameRow}>
-        <Text style={styles.name}>Mustafa</Text>
+        <Text style={styles.name}>Welkom, {username || "Gebruiker"}!</Text>
         <Image
           source={require("./images/pen.png")}
           style={styles.editIcon}
@@ -29,7 +47,7 @@ export default function Profile() {
 
       <Text style={styles.pronouns}>he/him</Text>
 
-      {/* CARD */}
+      
       <View style={styles.card}>
         <Text style={styles.cardText}>
           Mustafa is a travel enthusiast who enjoys discovering new places and
@@ -38,7 +56,7 @@ export default function Profile() {
         </Text>
       </View>
 
-      {/* FAVORITES HEADER */}
+      
       <View style={styles.favHeader}>
         <Image
           source={require("./images/Hartje.png")}
@@ -47,14 +65,14 @@ export default function Profile() {
         <Text style={styles.favTitle}>My favorites</Text>
       </View>
 
-      {/* HORIZONTAL CITIES */}
+    
 <View style={styles.citiesContainer}>
   <Image
     source={require("./images/Cities.png")}
     style={styles.citiesImage}
   />
 </View>
-<br /> <br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <View style={styles.navSpacer} />
       <Nav />
     </View>
   );
@@ -66,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  /* HEADER */
+  
   header: {
     width: "100%",
     height: 220,
@@ -89,7 +107,7 @@ const styles = StyleSheet.create({
     left: 20,
   },
 
-  /* NAME */
+  
   nameRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -154,7 +172,7 @@ const styles = StyleSheet.create({
     top: 100,
   },
 
-  /* CITIES */
+  
 citiesContainer: {
   marginTop: 15,
   marginHorizontal: 20,
@@ -168,4 +186,7 @@ citiesImage: {
   height: 120,
   resizeMode: "cover",
 },
+  navSpacer: {
+    flex: 1,
+  },
 });

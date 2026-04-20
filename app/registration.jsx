@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {ImageBackground,Pressable,StyleSheet, Text, TextInput, View,} from "react-native";
+import { Alert, ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Link, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Registration() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,22 +18,22 @@ export default function Registration() {
   }, []);
 
   const isValid = useMemo(() => {
-    if (email.trim().length === 0) return false;
+    if (username.trim().length === 0) return false;
     if (password.length === 0) return false;
     if (confirmPassword.length === 0) return false;
     if (password !== confirmPassword) return false;
     return true;
-  }, [email, password, confirmPassword]);
+  }, [username, password, confirmPassword]);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     const showMessage = (message) => {
       setError(message);
       if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
       errorTimerRef.current = setTimeout(() => setError(""), 3000);
     };
 
-    if (!email.trim()) {
-      showMessage("Email is verplicht.");
+    if (!username.trim()) {
+      showMessage("Gebruikersnaam is verplicht.");
       return;
     }
     if (!password) {
@@ -44,12 +45,21 @@ export default function Registration() {
       return;
     }
     if (password !== confirmPassword) {
-      showMessage("Wachtwoorden komen niet overeen.");
+      showMessage("Wachtwoorden komen niet overeen");
       return;
     }
 
-    setError("");
-    router.replace("/home");
+    try {
+      
+      await AsyncStorage.setItem(
+        "user",
+        JSON.stringify({ username: username.trim(), password })
+      );
+      setError("");
+      router.replace("/login");
+    } catch (_storageError) {
+      showMessage("Er ging iets mis bij registreren.");
+    }
   };
 
   return (
@@ -63,14 +73,12 @@ export default function Registration() {
       
         <TextInput
           style={styles.input}
-          placeholder="Email Adress"
+          placeholder="Gebruikersnaam"
           placeholderTextColor="rgb(0, 0, 0)"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
+          value={username}
+          onChangeText={setUsername}
           autoCorrect={false}
-          textContentType="emailAddress"
+          textContentType="username"
         />
 
         <TextInput
@@ -93,7 +101,7 @@ export default function Registration() {
           textContentType="newPassword"/>
         
         <Pressable
-          style={[styles.button, !isValid && styles.buttonDisabled]}
+          style={[styles.button]}
           onPress={handleRegister}
         >
           <Text style={styles.buttonText}>CREATE ACCOUNT</Text>

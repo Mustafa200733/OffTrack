@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {ImageBackground,Pressable, StyleSheet, Text, TextInput, View} from "react-native";
+import { Alert, ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Link, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const errorTimerRef = useRef(null);
@@ -16,10 +17,10 @@ export default function Login() {
   }, []);
 
   const isValid = useMemo(() => {
-    return email.trim().length > 0 && password.length > 0;
-  }, [email, password]);
+    return username.trim().length > 0 && password.length > 0;
+  }, [username, password]);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const showMessage = (message) => {
       setError(message);
       if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
@@ -27,12 +28,26 @@ export default function Login() {
     };
 
     if (!isValid) {
-      showMessage("Vul je email en wachtwoord in.");
+      showMessage("Vul je gebruikersnaam en wachtwoord in.");
       return;
     }
 
-    setError("");
-    router.replace("/home");
+    try {
+      const storedUserRaw = await AsyncStorage.getItem("user");
+      const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
+      const isCorrectLogin =
+        storedUser?.username === username.trim() && storedUser?.password === password;
+
+      if (isCorrectLogin) {
+        setError("");
+        router.replace("/profile");
+        return;
+      }
+
+      showMessage("Onjuiste gebruikersnaam of wachtwoord");
+    } catch (_storageError) {
+      showMessage("Er ging iets mis bij inloggen.");
+    }
   };
 
   return (
@@ -45,14 +60,13 @@ export default function Login() {
 
         <TextInput
           style={styles.input}
-          placeholder="Email Adress"
+          placeholder="Gebruikersnaam"
           placeholderTextColor="rgb(0, 0, 0)"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
+          value={username}
+          onChangeText={setUsername}
           autoCapitalize="none"
           autoCorrect={false}
-          textContentType="emailAddress"
+          textContentType="username"
         />
 
         <TextInput
