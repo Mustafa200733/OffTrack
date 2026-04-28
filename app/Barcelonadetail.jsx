@@ -1,75 +1,118 @@
-import { StyleSheet, View, Image, Text } from 'react-native'
-import { Link } from 'expo-router';
+import { useEffect, useState } from "react";
+import { StyleSheet, View, Image, Text } from "react-native";
+import { Link } from "expo-router";
 import Nav from "./Nav";
+import axios from "axios";
+
+const apiKey = (process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY ?? "").trim();
+const trip = { city: "Barcelona" };
+
 export default function Barcelonadetail() {
- 
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (!apiKey) {
+        setWeather(null);
+        return;
+      }
+
+      try {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(trip.city)}&appid=${apiKey}&units=metric&lang=nl`;
+        const response = await axios.get(url);
+        setWeather(response.data);
+      } catch (_error) {
+        setWeather(null);
+      }
+    };
+
+    fetchWeather();
+  }, []);
+
   return (
     <View>
-      <Text style={styles.Text}> Barcelona</Text>
-     
-     <Link href="/home">
-      <Image source={require('./images/kruis.png')} 
-      style={styles.kruis}
-      ></Image>
-</Link>
+      <Text style={styles.title}>{trip.city}</Text>
+      <Link href="/home">
+        <Image source={require("./images/kruis.png")} style={styles.kruis} />
+      </Link>
 
-      <Image source={require('./images/detbar.png')}
-                        style={styles.image}
->
+      <Image source={require("./images/detbar.png")} style={styles.image} />
 
-      </Image>
-      <Text style={styles.Textt} >Day 1</Text>
-          <Text style={styles.Text3}>
-          
-          
-I finally made it! After months of planning, I landed in Barcelona this morning. The moment I stepped out of the airport, I felt the warm Mediterranean breeze and the city’s vibrant energy. My hotel is in the Gothic Quarter, a maze of narrow, cobblestone streets filled with history. I spent the afternoon wandering around, marveling at the medieval buildings and charming plazas. For dinner, I had my first taste of authentic tapas—patatas bravas, jamón ibérico, and a glass of sangria. A perfect start to my trip!
-      
-      <br />
-      <br />
+      <Text style={styles.dayTitle}>Day 1</Text>
+      <Text style={styles.storyText}>
+        I finally made it! Barcelona welcomed me with sunny streets, colorful architecture, and lively city vibes.
       </Text>
-           <Text style={styles.Textt}>Day 2</Text>     
-       <Text style={styles.Text3}> 
-      
-Today was all about Antoni Gaudí. I started my morning at the breathtaking Sagrada Família. The towering spires and intricate details left me speechless. I could’ve spent hours admiring the stained glass windows as sunlight danced through them. Next, I visited Park Güell, a whimsical wonderland filled with colorful mosaics and surreal architecture. Walking through the park felt like stepping into a fairytale. I ended my day strolling down Passeig de Gràcia, where I saw Casa Batlló and La Pedrera. Gaudí’s genius is everywhere!</Text>
-            <Nav />
-    </View>
-  )
-}
-const styles = StyleSheet.create({
 
-    Text: {
+      <Text style={styles.dayTitle}>Day 2</Text>
+      <Text style={styles.storyText}>
+        I discovered famous landmarks, walked through charming neighborhoods, and enjoyed amazing local food.
+      </Text>
+
+      <View style={styles.weatherContainer}>
+        {weather ? (
+          <>
+            <Text style={styles.weatherText}>??? {Math.round(weather?.main?.temp ?? 0)}�C</Text>
+            <Text style={styles.weatherText}>?? {weather?.weather?.[0]?.description ?? "Geen weerinformatie beschikbaar."}</Text>
+          </>
+        ) : (
+          <Text style={styles.weatherFallback}>Geen weerinformatie beschikbaar.</Text>
+        )}
+      </View>
+
+      <Nav />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
     marginLeft: 20,
-  },  
-  
-  
-
+  },
   image: {
     width: "100%",
     height: 190,
     resizeMode: "cover",
   },
-
-  
-  Textt: {
+  dayTitle: {
     fontSize: 17,
     fontWeight: "bold",
     marginBottom: 10,
     marginLeft: 20,
+    marginTop: 8,
   },
-  Text3: {
+  storyText: {
     fontSize: 15,
     marginBottom: 10,
     marginLeft: 20,
-        fontWeight: "bold",
-
+    marginRight: 20,
+    fontWeight: "bold",
   },
   kruis: {
     top: -39,
     left: 350,
-   
+  },
+  weatherContainer: {
+    marginTop: 12,
+    marginHorizontal: 20,
+    backgroundColor: "#f7f7f7",
+    borderRadius: 12,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#e4e4e4",
+    gap: 4,
+    marginBottom: 12,
+  },
+  weatherText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#222",
+  },
+  weatherFallback: {
+    fontSize: 15,
+    color: "#555",
+    fontWeight: "600",
   },
 });
-

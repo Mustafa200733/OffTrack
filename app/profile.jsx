@@ -1,16 +1,57 @@
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View, Pressable } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Nav from "./Nav";
+import axios from "axios";
+
+const OPENWEATHER_API_KEY = "d8a317cc158a78de7232b05ad8139eb9";
 
 export default function Profile() {
   const [username, setUsername] = useState("");
+  const [data, setData] = useState(null);
+
+  const fetchData = async () => {
+    if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY.includes("JOUW_")) {
+      Alert.alert(
+        "API key ongeldig",
+        "Zet een echte EXPO_PUBLIC_OPENWEATHER_API_KEY in je .env en herstart Expo."
+      );
+      return;
+    }
+
+    try {
+      const response = await axios.get("https://api.openweathermap.org/data/2.5/weather", {
+        params: {
+          q: "Amsterdam",
+          appid: OPENWEATHER_API_KEY,
+          units: "metric",
+          lang: "nl",
+        },
+      });
+      setData(response.data);
+    } catch (error) {
+      const status = error?.response?.status;
+      if (status === 401) {
+        Alert.alert(
+          "API key nog niet actief",
+          "OpenWeather geeft 401 terug. Controleer de key en wacht eventueel 10-60 min na aanmaken."
+        );
+        return;
+      }
+      Alert.alert(
+        "Data ophalen mislukt",
+        `Status: ${status ?? "onbekend"}. Controleer internet of probeer later opnieuw.`
+      );
+    }
+  };
 
   useEffect(() => {
     const loadUser = async () => {
       try {
         const storedUserRaw = await AsyncStorage.getItem("user");
-        const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
+        const storedUser = storedUserRaw
+          ? JSON.parse(storedUserRaw)
+          : null;
         setUsername(storedUser?.username ?? "");
       } catch (_error) {
         setUsername("");
@@ -22,8 +63,6 @@ export default function Profile() {
 
   return (
     <View style={styles.screen}>
-
-      
       <View style={styles.header}>
         <Image
           source={require("./images/backgroundm.png")}
@@ -36,9 +75,10 @@ export default function Profile() {
         />
       </View>
 
-     
       <View style={styles.nameRow}>
-        <Text style={styles.name}>Welkom, {username || "Gebruiker"}!</Text>
+        <Text style={styles.name}>
+          Welkom, {username || "Gebruiker"}!
+        </Text>
         <Image
           source={require("./images/pen.png")}
           style={styles.editIcon}
@@ -47,7 +87,6 @@ export default function Profile() {
 
       <Text style={styles.pronouns}>he/him</Text>
 
-      
       <View style={styles.card}>
         <Text style={styles.cardText}>
           Mustafa is a travel enthusiast who enjoys discovering new places and
@@ -56,7 +95,24 @@ export default function Profile() {
         </Text>
       </View>
 
-      
+      <View style={styles.container}>
+        <Pressable style={styles.button} onPress={fetchData}>
+          <Text style={styles.buttonText}>Haal Weer Op</Text>
+        </Pressable>
+
+        {data && (
+          <View style={styles.dataContainer}>
+            <Text style={styles.weatherTitle}>{data?.name ?? "Onbekende stad"}</Text>
+            <Text style={styles.weatherText}>
+              Temperatuur: {Math.round(data?.main?.temp ?? 0)} C
+            </Text>
+            <Text style={styles.weatherText}>
+              Weer: {data?.weather?.[0]?.description ?? "Geen omschrijving"}
+            </Text>
+          </View>
+        )}
+      </View>
+
       <View style={styles.favHeader}>
         <Image
           source={require("./images/Hartje.png")}
@@ -65,13 +121,13 @@ export default function Profile() {
         <Text style={styles.favTitle}>My favorites</Text>
       </View>
 
-    
-<View style={styles.citiesContainer}>
-  <Image
-    source={require("./images/Cities.png")}
-    style={styles.citiesImage}
-  />
-</View>
+      <View style={styles.citiesContainer}>
+        <Image
+          source={require("./images/Cities.png")}
+          style={styles.citiesImage}
+        />
+      </View>
+
       <View style={styles.navSpacer} />
       <Nav />
     </View>
@@ -84,7 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  
   header: {
     width: "100%",
     height: 220,
@@ -107,7 +162,6 @@ const styles = StyleSheet.create({
     left: 20,
   },
 
-  
   nameRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -132,7 +186,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
 
-  
   card: {
     marginTop: 15,
     marginHorizontal: 20,
@@ -151,7 +204,6 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 
-  
   favHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -172,21 +224,54 @@ const styles = StyleSheet.create({
     top: 100,
   },
 
-  
-citiesContainer: {
-  marginTop: 15,
-  marginHorizontal: 20,
-  borderRadius: 15,
-  overflow: "hidden",
-  top: 120,
-},
+  citiesContainer: {
+    marginTop: 15,
+    marginHorizontal: 20,
+    borderRadius: 15,
+    overflow: "hidden",
+    top: 120,
+  },
 
-citiesImage: {
-  width: "100%",
-  height: 120,
-  resizeMode: "cover",
-},
+  citiesImage: {
+    width: "100%",
+    height: 120,
+    resizeMode: "cover",
+  },
+
   navSpacer: {
     flex: 1,
+  },
+  container: {
+    marginTop: 12,
+    marginHorizontal: 20,
+    gap: 8,
+  },
+  button: {
+    backgroundColor: "#000",
+    borderRadius: 12,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 14,
+  },
+  dataContainer: {
+    backgroundColor: "#f7f7f7",
+    borderRadius: 12,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#e2e2e2",
+    gap: 4,
+  },
+  weatherTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#111",
+  },
+  weatherText: {
+    fontSize: 15,
+    color: "#333",
   },
 });
